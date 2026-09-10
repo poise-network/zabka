@@ -1,9 +1,16 @@
 import json
+import os
 
 import requests
 import scrapy
 from scrapy.http import JsonRequest
+from dotenv import load_dotenv
 
+load_dotenv()
+
+POISE_API_DOMAIN = os.getenv("POISE_API_DOMAIN")
+#POISE_API_DOMAIN = "localhost:8000"
+POISE_API_URL = f"http://{POISE_API_DOMAIN}" if 'localhost' in POISE_API_DOMAIN else f"https://{POISE_API_DOMAIN}"
 
 class ProductsSpider(scrapy.Spider):
     name = "products"
@@ -21,7 +28,7 @@ class ProductsSpider(scrapy.Spider):
 
         categories = self.get_categories()
 
-        url = "https://poise.network/api/v1/e-commerce/products/"
+        url = f"{POISE_API_URL}/api/v1/e-commerce/products/"
 
         headers = {
             "Authorization": f"Bearer {self.POISE_API_KEY}",
@@ -31,6 +38,7 @@ class ProductsSpider(scrapy.Spider):
         # TESTING
         first_key, first_value = next(iter(categories.items()))
         categories = {first_key: first_value}
+        #categories = {'5d9cd9d1-9883-4bf4-aac5-4a6c484c2cc4': 'WARZYWA I OWOCE'}
 
         for category_id in categories.keys():
             payload = {
@@ -67,7 +75,7 @@ class ProductsSpider(scrapy.Spider):
             payload["page"] += 1
             request.meta["page"] += 1
             
-            paginated_request = response.request.replace(
+            paginated_request = request.replace(
                 body=json.dumps(payload).encode(),
                 dont_filter=True,
             )
@@ -76,16 +84,16 @@ class ProductsSpider(scrapy.Spider):
 
         products = data['data']['categoryProducts']['results']
 
-        for product in products[:1]:  # Limit to first product for testing
+        for product in products:  # Limit to first product for testing
             item = {}
             item['id'] = product.get('sku')
             item['name'] = product.get('name')
 
-            yield product
+            yield item
 
     def get_categories(self):
 
-        url = "https://poise.network/api/v1/e-commerce/categories/"
+        url = f"{POISE_API_URL}/api/v1/e-commerce/categories/"
 
         headers = {
             "Authorization": f"Bearer {self.POISE_API_KEY}",
