@@ -13,27 +13,7 @@ POISE_API_DOMAIN = os.getenv("POISE_API_DOMAIN")
 POISE_API_URL = f"http://{POISE_API_DOMAIN}" if 'localhost' in POISE_API_DOMAIN else f"https://{POISE_API_DOMAIN}"
 
 
-def paginate(callback):
-    def wrapper(self, response, *args, **kwargs):
-        data = response.json()
 
-        yield from callback(self, response, *args, **kwargs)
-
-        if len(data['data']['categoryProducts']['results']) > 0:
-
-            request = response.request.copy()
-            payload = json.loads(request.body)
-            payload["page"] += 1
-            request.meta["page"] += 1
-
-            paginated_request = request.replace(
-                body=json.dumps(payload).encode(),
-                dont_filter=True,
-            )
-
-            yield paginated_request
-
-    return wrapper
 
 
 class ProductsSpider(scrapy.Spider):
@@ -83,7 +63,29 @@ class ProductsSpider(scrapy.Spider):
                 dont_filter=True
             )
 
-    @paginate
+    def pagination(callback):
+        def wrapper(self, response, *args, **kwargs):
+            data = response.json()
+
+            yield from callback(self, response, *args, **kwargs)
+
+            if len(data['data']['categoryProducts']['results']) > 0:
+
+                request = response.request.copy()
+                payload = json.loads(request.body)
+                payload["page"] += 1
+                request.meta["page"] += 1
+
+                paginated_request = request.replace(
+                    body=json.dumps(payload).encode(),
+                    dont_filter=True,
+                )
+
+                yield paginated_request
+
+        return wrapper
+
+    @pagination
     def parse_products(self, response):
         data = response.json()
 

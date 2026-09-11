@@ -7,3 +7,5 @@ build/
 project.egg-info/
 scrapinghub.yml
 setup.py
+tmp/
+requirements-zyte.txt
