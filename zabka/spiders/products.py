@@ -12,6 +12,30 @@ POISE_API_DOMAIN = os.getenv("POISE_API_DOMAIN")
 #POISE_API_DOMAIN = "localhost:8000"
 POISE_API_URL = f"http://{POISE_API_DOMAIN}" if 'localhost' in POISE_API_DOMAIN else f"https://{POISE_API_DOMAIN}"
 
+
+def paginate(callback):
+    def wrapper(self, response, *args, **kwargs):
+        data = response.json()
+
+        yield from callback(self, response, *args, **kwargs)
+
+        if int(data['data']['categoryProducts']['total']) > 0:
+
+            request = response.request.copy()
+            payload = json.loads(request.body)
+            payload["page"] += 1
+            request.meta["page"] += 1
+
+            paginated_request = request.replace(
+                body=json.dumps(payload).encode(),
+                dont_filter=True,
+            )
+
+            yield paginated_request
+
+    return wrapper
+
+
 class ProductsSpider(scrapy.Spider):
     name = "products"
     allowed_domains = ["poise.network"]
@@ -36,11 +60,14 @@ class ProductsSpider(scrapy.Spider):
         }
 
         # TESTING
-        first_key, first_value = next(iter(categories.items()))
-        categories = {first_key: first_value}
+        cat_items = iter(categories.items())
+        categories = {}
+        for i in range(3):  # Limit to first category for testing
+            first_key, first_value = next(cat_items)
+            categories.update({first_key: first_value})
         #categories = {'5d9cd9d1-9883-4bf4-aac5-4a6c484c2cc4': 'WARZYWA I OWOCE'}
 
-        for category_id in categories.keys():
+        for id in categories.keys():
             payload = {
                 "platform": "android",
                 "retailer": "zabka-jush",
@@ -48,7 +75,7 @@ class ProductsSpider(scrapy.Spider):
                 "mode": "quick-delivery",
                 "lat": 52.2356949,
                 "lng": 20.9941515,
-                "category_id": category_id,
+                "category_id": id,
                 "page": 1,
                 "output": "json"
             }
@@ -58,29 +85,13 @@ class ProductsSpider(scrapy.Spider):
                 headers=headers,
                 data=payload,
                 callback=self.parse_products,
-                meta={"page": 1, "category_id": category_id},
+                meta={"page": 1, "category_id": id},
                 dont_filter=True
             )
 
+    @paginate
     def parse_products(self, response):
         data = response.json()
-
-        if response.meta["page"] > 3:
-            return
-
-        if int(data['data']['categoryProducts']['total']) > 0:
-
-            request = response.request.copy()
-            payload = json.loads(request.body)
-            payload["page"] += 1
-            request.meta["page"] += 1
-            
-            paginated_request = request.replace(
-                body=json.dumps(payload).encode(),
-                dont_filter=True,
-            )
-
-            yield paginated_request
 
         products = data['data']['categoryProducts']['results']
 
