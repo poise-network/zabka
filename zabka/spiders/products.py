@@ -19,7 +19,7 @@ def paginate(callback):
 
         yield from callback(self, response, *args, **kwargs)
 
-        if int(data['data']['categoryProducts']['total']) > 0:
+        if len(data['data']['categoryProducts']['results']) > 0:
 
             request = response.request.copy()
             payload = json.loads(request.body)
@@ -59,15 +59,7 @@ class ProductsSpider(scrapy.Spider):
             "Content-Type": "application/json",
         }
 
-        # TESTING
-        cat_items = iter(categories.items())
-        categories = {}
-        for i in range(3):  # Limit to first category for testing
-            first_key, first_value = next(cat_items)
-            categories.update({first_key: first_value})
-        #categories = {'5d9cd9d1-9883-4bf4-aac5-4a6c484c2cc4': 'WARZYWA I OWOCE'}
-
-        for id in categories.keys():
+        for id, name in categories.items():
             payload = {
                 "platform": "android",
                 "retailer": "zabka-jush",
@@ -85,7 +77,9 @@ class ProductsSpider(scrapy.Spider):
                 headers=headers,
                 data=payload,
                 callback=self.parse_products,
-                meta={"page": 1, "category_id": id},
+                meta={"page": 1,
+                      "category_id": id,
+                      "category_name": name},
                 dont_filter=True
             )
 
@@ -99,6 +93,8 @@ class ProductsSpider(scrapy.Spider):
             item = {}
             item['id'] = product.get('sku')
             item['name'] = product.get('name')
+            item['category'] = response.meta.get('category_name')
+            item['page'] = response.meta.get('page')
 
             yield item
 
