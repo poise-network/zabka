@@ -3,7 +3,6 @@ from pprint import pprint
 
 POISE_API_KEY = ""
 
-
 def request_categories():
 
     url = "https://poise.network/api/v1/e-commerce/categories/"
