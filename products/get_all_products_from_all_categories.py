@@ -6,6 +6,13 @@ import random
 
 POISE_API_KEY = ""
 
+PLATFORM = "android"
+RETAILER = "zabka-jush"
+COUNTRY = "pl"
+MODE = "quick-delivery"
+LAT = 52.2356949
+LNG = 20.9941515
+
 def get_all_products_from_all_categories():
 
     categories = get_categories().json()
@@ -35,12 +42,12 @@ def get_all_products_from_all_categories():
             }
 
             payload = {
-                "platform": "android",
-                "retailer": "zabka-jush",
-                "country": "pl",
-                "mode": "quick-delivery",
-                "lat": 52.2356949,
-                "lng": 20.9941515,
+                "platform": PLATFORM,
+                "retailer": RETAILER,
+                "country": COUNTRY,
+                "mode": MODE,
+                "lat": LAT,
+                "lng": LNG,
                 "category_id": id,
                 "page": page,
                 "output": "json",
@@ -78,12 +85,12 @@ def get_categories():
     }
 
     payload = {
-        "retailer": "zabka-jush",
-        "platform": "android",
-        "country": "pl",
-        "mode": "quick-delivery",
-        "lat": 52.2356949,
-        "lng": 20.9941515,
+        "retailer": RETAILER,
+        "platform": PLATFORM,
+        "country": COUNTRY,
+        "mode": MODE,
+        "lat": LAT,
+        "lng": LNG,
         "output": "json",
     }
 

@@ -6,6 +6,12 @@ from pprint import pprint
 
 POISE_API_KEY = ""
 
+PLATFORM = "android"
+RETAILER = "zabka-jush"
+COUNTRY = "pl"
+MODE = "quick-delivery"
+LAT = 52.2356949
+LNG = 20.9941515
 CATEGORY = {'name': "WARZYWA I OWOCE",
             'id': "5d9cd9d1-9883-4bf4-aac5-4a6c484c2cc4"}
 
@@ -28,12 +34,12 @@ def get_all_pdp_pages_per_category():
         }
 
         payload = {
-            "platform": "android",
-            "retailer": "zabka-jush",
-            "country": "pl",
-            "mode": "quick-delivery",
-            "lat": 52.2356949,
-            "lng": 20.9941515,
+            "platform": PLATFORM,
+            "retailer": RETAILER,
+            "country": COUNTRY,
+            "mode": MODE,
+            "lat": LAT,
+            "lng": LNG,
             "product_id": product_id,
             "output": "json",
         }
@@ -72,12 +78,12 @@ def get_all_products_per_category():
         }
 
         payload = {
-            "platform": "android",
-            "retailer": "zabka-jush",
-            "country": "pl",
-            "mode": "quick-delivery",
-            "lat": 52.2356949,
-            "lng": 20.9941515,
+            "platform": PLATFORM,
+            "retailer": RETAILER,
+            "country": COUNTRY,
+            "mode": MODE,
+            "lat": LAT,
+            "lng": LNG,
             "category_id": category['id'],
             "page": page,
             "output": "json",
