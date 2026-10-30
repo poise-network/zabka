@@ -4,8 +4,6 @@ A collection of APIs for retrieving structured e-commerce data from Żabka's dig
 
 ## Features
 
-The project is organized into modules covering different types of retail data:
-
 | Module | Description |
 |---|---|
 | `stores/` | Store locations and information |
@@ -13,6 +11,10 @@ The project is organized into modules covering different types of retail data:
 | `products/` | Product listings and availability |
 | `search/` | Product search results |
 | `pdp/` | Product detail pages |
+
+## Data
+
+- [categories.json](categories/categories.json): Product categories and their IDs.
 
 ## Purpose
 
@@ -28,4 +30,4 @@ The crawlers support automated collection of retail data for:
 
 Developed and maintained by **Poise Network**, providing resilient access to external data sources at scale.
 
-Website: [poise.network](https://poise.network)
+Website: <a href="https://poise.network" target="_blank" rel="noopener noreferrer">poise.network</a>
