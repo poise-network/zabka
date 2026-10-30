@@ -26,8 +26,6 @@ def get_search_single_page():
 
     response = requests.post(url, headers=headers, json=payload, timeout=5)
 
-    breakpoint()
-
     pprint(response.json())
 
 if __name__ == "__main__":
