@@ -6,7 +6,6 @@ import random
 POISE_API_KEY = ""
 
 PLATFORM = "android"
-RETAILER = "zabka-jush"
 COUNTRY = "pl"
 MODE = "quick-delivery"
 LAT = 52.2356949
@@ -23,7 +22,7 @@ def get_all_pdp_pages_per_search_keyword():
     print(f"Retrieving PDP pages for products returned by search for {KEYWORD}...")
 
     for product_id in product_ids:
-        url = "https://poise.network/api/v1/e-commerce/pdp/"
+        url = "https://poise.network/api/v1/e-commerce/zabka/pdp/"
 
         headers = {
             "Authorization": f"Bearer {POISE_API_KEY}",
@@ -32,13 +31,13 @@ def get_all_pdp_pages_per_search_keyword():
 
         payload = {
             "platform": PLATFORM,
-            "retailer": RETAILER,
             "country": COUNTRY,
             "mode": MODE,
             "lat": LAT,
             "lng": LNG,
             "product_id": product_id,
             "output": "json",
+            "freshness": "fresh",
         }
 
         print(f"Requesting pdp page for product {product_id}...")
@@ -64,7 +63,7 @@ def get_100_search_results_single_keyword():
 
     while page <= 8:  # Limit to 8 pages for testing (24 + 7*12 = 108 items)
 
-        url = "https://poise.network/api/v1/e-commerce/search/"
+        url = "https://poise.network/api/v1/e-commerce/zabka/search/"
 
         headers = {
             "Authorization": f"Bearer {POISE_API_KEY}",
@@ -73,7 +72,6 @@ def get_100_search_results_single_keyword():
 
         payload = {
             "platform": PLATFORM,
-            "retailer": RETAILER,
             "country": COUNTRY,
             "mode": MODE,
             "lat": LAT,
@@ -81,6 +79,7 @@ def get_100_search_results_single_keyword():
             "keyword": KEYWORD,
             "page": page,
             "output": "json",
+            "freshness": "fresh",
         }
 
         response = requests.post(url, headers=headers, json=payload, timeout=5)

@@ -5,7 +5,7 @@ POISE_API_KEY = ""
 
 def get_products():
 
-    url = "https://poise.network/api/v1/e-commerce/products/"
+    url = "https://poise.network/api/v1/e-commerce/zabka/products/"
 
     headers = {
         "Authorization": f"Bearer {POISE_API_KEY}",
@@ -14,7 +14,6 @@ def get_products():
 
     payload = {
         "platform": "android",
-        "retailer": "zabka-jush",
         "country": "pl",
         "mode": "quick-delivery",
         "lat": 52.2356949,
@@ -22,6 +21,7 @@ def get_products():
         "category_id": "5d9cd9d1-9883-4bf4-aac5-4a6c484c2cc4",
         "page": 1,
         "output": "json",
+        "freshness": "fresh",
     }
 
     response = requests.post(url, headers=headers, json=payload, timeout=5)

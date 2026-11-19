@@ -7,7 +7,6 @@ import random
 POISE_API_KEY = ""
 
 PLATFORM = "android"
-RETAILER = "zabka-jush"
 COUNTRY = "pl"
 MODE = "quick-delivery"
 LAT = 52.2356949
@@ -34,7 +33,7 @@ def get_all_products_from_all_categories():
 
         while keep_requesting:
                 
-            url = "https://poise.network/api/v1/e-commerce/products/"
+            url = "https://poise.network/api/v1/e-commerce/zabka/products/"
 
             headers = {
                 "Authorization": f"Bearer {POISE_API_KEY}",
@@ -43,7 +42,6 @@ def get_all_products_from_all_categories():
 
             payload = {
                 "platform": PLATFORM,
-                "retailer": RETAILER,
                 "country": COUNTRY,
                 "mode": MODE,
                 "lat": LAT,
@@ -51,6 +49,7 @@ def get_all_products_from_all_categories():
                 "category_id": id,
                 "page": page,
                 "output": "json",
+                "freshness": "fresh",
             }
 
             print(f"Requesting page {page}...")
@@ -77,7 +76,7 @@ def get_all_products_from_all_categories():
 
 def get_categories():
 
-    url = "https://poise.network/api/v1/e-commerce/categories/"
+    url = "https://poise.network/api/v1/e-commerce/zabka/categories/"
 
     headers = {
         "Authorization": f"Bearer {POISE_API_KEY}",
@@ -85,13 +84,13 @@ def get_categories():
     }
 
     payload = {
-        "retailer": RETAILER,
         "platform": PLATFORM,
         "country": COUNTRY,
         "mode": MODE,
         "lat": LAT,
         "lng": LNG,
         "output": "json",
+        "freshness": "fresh",
     }
 
     return requests.post(url, headers=headers, json=payload, timeout=5)

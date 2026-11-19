@@ -22,7 +22,7 @@ def get_100_search_results_for_20_keywords():
 
         while page <= 8:  # Limit to 8 pages (24 + 7*12 = 108 items)
 
-            url = "https://poise.network/api/v1/e-commerce/search/"
+            url = "https://poise.network/api/v1/e-commerce/zabka/search/"
 
             headers = {
                 "Authorization": f"Bearer {POISE_API_KEY}",
@@ -31,7 +31,6 @@ def get_100_search_results_for_20_keywords():
 
             payload = {
                 "platform": "android",
-                "retailer": "zabka-jush",
                 "country": "pl",
                 "mode": "quick-delivery",
                 "lat": 52.2356949,
@@ -39,6 +38,7 @@ def get_100_search_results_for_20_keywords():
                 "keyword": keyword,
                 "page": page,
                 "output": "json",
+                "freshness": "fresh",
             }
 
             response = requests.post(url, headers=headers, json=payload, timeout=5)

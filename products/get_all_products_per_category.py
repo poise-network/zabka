@@ -17,7 +17,7 @@ def get_all_products_per_category():
 
     while keep_requesting:
             
-        url = "https://poise.network/api/v1/e-commerce/products/"
+        url = "https://poise.network/api/v1/e-commerce/zabka/products/"
 
         headers = {
             "Authorization": f"Bearer {POISE_API_KEY}",
@@ -26,7 +26,6 @@ def get_all_products_per_category():
 
         payload = {
             "platform": "android",
-            "retailer": "zabka-jush",
             "country": "pl",
             "mode": "quick-delivery",
             "lat": 52.2356949,
@@ -34,6 +33,7 @@ def get_all_products_per_category():
             "category_id": category['id'],
             "page": page,
             "output": "json",
+            "freshness": "fresh",
         }
 
         print(f"Requesting page {page}...")
