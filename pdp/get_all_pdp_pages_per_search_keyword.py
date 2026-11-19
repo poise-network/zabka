@@ -8,8 +8,7 @@ POISE_API_KEY = ""
 PLATFORM = "android"
 COUNTRY = "pl"
 MODE = "quick-delivery"
-LAT = 52.2356949
-LNG = 20.9941515
+STORE_ID = "zabka_pl_android_warszawa_01_210_szarych_szeregow_11"
 KEYWORD = "cola"
 
 def get_all_pdp_pages_per_search_keyword():
@@ -33,8 +32,7 @@ def get_all_pdp_pages_per_search_keyword():
             "platform": PLATFORM,
             "country": COUNTRY,
             "mode": MODE,
-            "lat": LAT,
-            "lng": LNG,
+            "store_id": STORE_ID,
             "product_id": product_id,
             "output": "json",
             "freshness": "fresh",
@@ -74,8 +72,7 @@ def get_100_search_results_single_keyword():
             "platform": PLATFORM,
             "country": COUNTRY,
             "mode": MODE,
-            "lat": LAT,
-            "lng": LNG,
+            "store_id": STORE_ID,
             "keyword": KEYWORD,
             "page": page,
             "output": "json",

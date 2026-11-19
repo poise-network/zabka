@@ -16,8 +16,7 @@ def request_categories():
         "platform": "android",
         "country": "pl",
         "mode": "quick-delivery",
-        "lat": 52.2356949,
-        "lng": 20.9941515,
+        "store_id": "zabka_pl_android_warszawa_01_210_szarych_szeregow_11",
         "output": "json",
         "freshness": "fresh",
     }

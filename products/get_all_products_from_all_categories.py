@@ -9,8 +9,7 @@ POISE_API_KEY = ""
 PLATFORM = "android"
 COUNTRY = "pl"
 MODE = "quick-delivery"
-LAT = 52.2356949
-LNG = 20.9941515
+STORE_ID = "zabka_pl_android_warszawa_01_210_szarych_szeregow_11"
 
 def get_all_products_from_all_categories():
 
@@ -44,8 +43,7 @@ def get_all_products_from_all_categories():
                 "platform": PLATFORM,
                 "country": COUNTRY,
                 "mode": MODE,
-                "lat": LAT,
-                "lng": LNG,
+                "store_id": STORE_ID,
                 "category_id": id,
                 "page": page,
                 "output": "json",
@@ -87,8 +85,7 @@ def get_categories():
         "platform": PLATFORM,
         "country": COUNTRY,
         "mode": MODE,
-        "lat": LAT,
-        "lng": LNG,
+        "store_id": STORE_ID,
         "output": "json",
         "freshness": "fresh",
     }
